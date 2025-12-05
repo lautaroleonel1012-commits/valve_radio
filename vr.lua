@@ -1,14 +1,21 @@
--- LocalScript en StarterPlayerScripts
+-- VALVE RADIO - SOLO LOCALSCRIPT (CLIENT-SIDE)
 local Players = game:GetService("Players")
+local UserInputService = game:GetService("UserInputService")
 local lp = Players.LocalPlayer
 local backpack = lp:WaitForChild("Backpack")
 
--- Crear Tool
+-----------------------------------------------------------
+-- 1. CREAR LA TOOL
+-----------------------------------------------------------
+
 local tool = Instance.new("Tool")
 tool.Name = "Valve radio"
 tool.CanBeDropped = false
 
--- Crear Handle como PART
+-----------------------------------------------------------
+-- 2. HANDLE (Part + SpecialMesh)
+-----------------------------------------------------------
+
 local handle = Instance.new("Part")
 handle.Name = "Handle"
 handle.Size = Vector3.new(2.606, 1.571, 0.704)
@@ -16,7 +23,6 @@ handle.Anchored = false
 handle.CanCollide = false
 handle.Parent = tool
 
--- MESH MANUAL (ESCRIBIBLE DESDE LOCALSCRIPT)
 local mesh = Instance.new("SpecialMesh")
 mesh.MeshType = Enum.MeshType.FileMesh
 mesh.MeshId = "rbxassetid://2255562649"
@@ -24,7 +30,6 @@ mesh.TextureId = "rbxassetid://2255562684"
 mesh.Scale = Vector3.new(2.606, 1.571, 0.704)
 mesh.Parent = handle
 
--- Grip
 tool.GripPos = Vector3.new(-0.6, -1, 0)
 tool.GripUp = Vector3.new(0, 1, 0)
 tool.GripRight = Vector3.new(0, 0, -1)
@@ -32,10 +37,8 @@ tool.GripForward = Vector3.new(1, 0, 0)
 
 tool.Parent = backpack
 
-
-
 -----------------------------------------------------------
--- 2. LISTA REAL DE LOS 43 AUDIOS DEL REPO
+-- 3. LISTA DE AUDIOS DEL REPO
 -----------------------------------------------------------
 
 local audioFiles = {
@@ -65,64 +68,53 @@ local audioFiles = {
 
 local repoURL = "https://raw.githubusercontent.com/lautaroleonel1012-commits/valve_radio/main/"
 
-
 -----------------------------------------------------------
--- 3. DESCARGAR LOS AUDIOS CON writefile
+-- 4. DESCARGAR AUDIOS A writefile
 -----------------------------------------------------------
 
 for _, file in ipairs(audioFiles) do
-	local audioURL = repoURL .. file
-	local ok, err = pcall(function()
-		writefile("valve_radio_" .. file, game:HttpGet(audioURL))
+	local url = repoURL .. file
+
+	pcall(function()
+		writefile("valve_radio_" .. file, game:HttpGet(url))
 	end)
-	if not ok then
-		warn("Error descargando " .. file, err)
-	end
 end
 
-
 -----------------------------------------------------------
--- 4. CREAR OBJETOS SOUND EN EL HANDLE
+-- 5. CREAR SOUNDS EN EL HANDLE
 -----------------------------------------------------------
 
 local sounds = {}
+local currentSound = nil
 
 for _, file in ipairs(audioFiles) do
 	local sound = Instance.new("Sound")
 	sound.SoundId = getcustomasset("valve_radio_" .. file)
 	sound.Volume = 1
-	sound.Looped = false
 	sound.Parent = handle
+	sound.Looped = false
 	table.insert(sounds, sound)
 end
 
-
 -----------------------------------------------------------
--- 5. FUNCIONES PARA REPRODUCIR ALEATORIOS
+-- 6. SISTEMA DE MÚSICA ALEATORIA
 -----------------------------------------------------------
-
-local currentSound = nil
 
 local function playRandom()
 	if currentSound then
 		currentSound:Stop()
 	end
 
-	local random = sounds[math.random(1, #sounds)]
-	currentSound = random
-	random:Play()
+	currentSound = sounds[math.random(1, #sounds)]
+	currentSound:Play()
 end
 
--- Cuando un sonido termina, pasar a otro
 for _, s in ipairs(sounds) do
-	s.Ended:Connect(function()
-		playRandom()
-	end)
+	s.Ended:Connect(playRandom)
 end
-
 
 -----------------------------------------------------------
--- 6. EVENTOS DE LA TOOL (EQUIP / DEEQUIP)
+-- 7. TOOL EQUIP / UNEQUIP
 -----------------------------------------------------------
 
 tool.Equipped:Connect(function()
@@ -135,15 +127,13 @@ tool.Unequipped:Connect(function()
 	end
 end)
 
-
 -----------------------------------------------------------
--- 7. TECLA R PARA CAMBIAR DE CANCIÓN
+-- 8. TECLA R PARA CAMBIAR MÚSICA
 -----------------------------------------------------------
 
 UserInputService.InputBegan:Connect(function(input, gpe)
 	if gpe then return end
-	if input.KeyCode == Enum.KeyCode.R and tool.Parent == lp.Character then
+	if tool.Parent == lp.Character and input.KeyCode == Enum.KeyCode.R then
 		playRandom()
 	end
 end)
-
