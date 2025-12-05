@@ -1,30 +1,37 @@
 -- LocalScript en StarterPlayerScripts
 local Players = game:GetService("Players")
-local UserInputService = game:GetService("UserInputService")
 local lp = Players.LocalPlayer
 local backpack = lp:WaitForChild("Backpack")
 
------------------------------------------------------------
--- 1. CREAR LA TOOL Y EL HANDLE
------------------------------------------------------------
-
+-- Crear Tool
 local tool = Instance.new("Tool")
 tool.Name = "Valve radio"
 tool.CanBeDropped = false
 
-local handle = Instance.new("MeshPart")
+-- Crear Handle como PART
+local handle = Instance.new("Part")
 handle.Name = "Handle"
-handle.MeshId = "rbxassetid://2255562649"
-handle.TextureID = "rbxassetid://2255562684"
 handle.Size = Vector3.new(2.606, 1.571, 0.704)
+handle.Anchored = false
+handle.CanCollide = false
 handle.Parent = tool
 
+-- MESH MANUAL (ESCRIBIBLE DESDE LOCALSCRIPT)
+local mesh = Instance.new("SpecialMesh")
+mesh.MeshType = Enum.MeshType.FileMesh
+mesh.MeshId = "rbxassetid://2255562649"
+mesh.TextureId = "rbxassetid://2255562684"
+mesh.Scale = Vector3.new(2.606, 1.571, 0.704)
+mesh.Parent = handle
+
+-- Grip
 tool.GripPos = Vector3.new(-0.6, -1, 0)
 tool.GripUp = Vector3.new(0, 1, 0)
 tool.GripRight = Vector3.new(0, 0, -1)
 tool.GripForward = Vector3.new(1, 0, 0)
 
 tool.Parent = backpack
+
 
 
 -----------------------------------------------------------
@@ -139,3 +146,4 @@ UserInputService.InputBegan:Connect(function(input, gpe)
 		playRandom()
 	end
 end)
+
