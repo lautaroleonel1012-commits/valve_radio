@@ -1,20 +1,13 @@
-print("Hello, World1")
 local Players = game:GetService("Players")
 local UserInputService = game:GetService("UserInputService")
 local lp = Players.LocalPlayer
 local backpack = lp:WaitForChild("Backpack")
 
------------------------------------------------------------
--- 1. CREAR LA TOOL
------------------------------------------------------------
 
 local tool = Instance.new("Tool")
 tool.Name = "Valve radio"
 tool.CanBeDropped = false
 
------------------------------------------------------------
--- 2. HANDLE (Part + SpecialMesh)
------------------------------------------------------------
 
 local handle = Instance.new("Part")
 handle.Name = "Handle"
@@ -40,9 +33,6 @@ tool.GripForward = Vector3.new(0, 0, 0)
 
 tool.Parent = backpack
 
------------------------------------------------------------
--- 3. LISTA DE AUDIOS DEL REPO
------------------------------------------------------------
 
 local audioFiles = {
 	"conga_sketch_167bpm_01-04.wav",
@@ -71,9 +61,6 @@ local audioFiles = {
 
 local repoURL = "https://raw.githubusercontent.com/lautaroleonel1012-commits/valve_radio/main/"
 
------------------------------------------------------------
--- 4. DESCARGAR AUDIOS A writefile
------------------------------------------------------------
 
 for _, file in ipairs(audioFiles) do
 	local url = repoURL .. file
@@ -83,9 +70,6 @@ for _, file in ipairs(audioFiles) do
 	end)
 end
 
------------------------------------------------------------
--- 5. CREAR SOUNDS EN EL HANDLE
------------------------------------------------------------
 
 local sounds = {}
 local currentSound = nil
@@ -99,9 +83,6 @@ for _, file in ipairs(audioFiles) do
 	table.insert(sounds, sound)
 end
 
------------------------------------------------------------
--- 6. SISTEMA DE MÚSICA ALEATORIA
------------------------------------------------------------
 
 local function playRandom()
 	if currentSound then
@@ -116,9 +97,6 @@ for _, s in ipairs(sounds) do
 	s.Ended:Connect(playRandom)
 end
 
------------------------------------------------------------
--- 7. TOOL EQUIP / UNEQUIP
------------------------------------------------------------
 
 tool.Equipped:Connect(function()
 	playRandom()
@@ -130,9 +108,6 @@ tool.Unequipped:Connect(function()
 	end
 end)
 
------------------------------------------------------------
--- 8. TECLA R PARA CAMBIAR MÚSICA
------------------------------------------------------------
 
 UserInputService.InputBegan:Connect(function(input, gpe)
 	if gpe then return end
@@ -140,4 +115,3 @@ UserInputService.InputBegan:Connect(function(input, gpe)
 		playRandom()
 	end
 end)
-
