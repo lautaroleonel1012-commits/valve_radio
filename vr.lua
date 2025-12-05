@@ -22,7 +22,7 @@ local mesh = Instance.new("SpecialMesh")
 mesh.MeshType = Enum.MeshType.FileMesh
 mesh.MeshId = "rbxassetid://2255562649"
 mesh.TextureId = "rbxassetid://2255562684"
-mesh.Scale = Vector3.new(0.01, 0.01, 0.01) -- << CORRECTO
+mesh.Scale = Vector3.new(0.01, 0.01, 0.01)
 mesh.Parent = handle
 
 
@@ -126,4 +126,3 @@ UserInputService.InputBegan:Connect(function(input, gpe)
 		playRandom()
 	end
 end)
-
