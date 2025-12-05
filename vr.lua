@@ -1,4 +1,4 @@
--- VALVE RADIO - SOLO LOCALSCRIPT (CLIENT-SIDE)
+print("Hello, World1")
 local Players = game:GetService("Players")
 local UserInputService = game:GetService("UserInputService")
 local lp = Players.LocalPlayer
@@ -20,7 +20,7 @@ local handle = Instance.new("Part")
 handle.Name = "Handle"
 local handle = Instance.new("Part")
 handle.Name = "Handle"
-handle.Size = Vector3.new(2.606, 1.571, 0.704)
+handle.Size = Vector3.new(0.01, 0.01, 0.01)
 handle.Anchored = false
 handle.CanCollide = false
 handle.Parent = tool
@@ -140,3 +140,4 @@ UserInputService.InputBegan:Connect(function(input, gpe)
 		playRandom()
 	end
 end)
+
