@@ -43,11 +43,21 @@ local audioFiles = {
 	"Half-Life10.mp3","Half-Life11.mp3","Half-Life12.mp3","Half-Life13.mp3",
 	"Half-Life14.mp3","Half-Life15.mp3","Half-Life16.mp3","Half-Life17.mp3",
 
-	"hl2_song1.mp3","hl2_song3.mp3","hl2_song4.mp3","hl2_song7.mp3","hl2_song9.mp3",
-	"hl2_song14.mp3","hl2_song15.mp3","hl2_song16.mp3","hl2_song17.mp3",
-	"hl2_song18.mp3","hl2_song19.mp3","hl2_song20_submix0.mp3","hl2_song20_submix4.mp3",
-	"hl2_song22.mp3","hl2_song23_suitsong3.mp3","hl2_song25_remix3.mp3",
-	"hl2_song29.mp3","hl2_song31.mp3","hl2_song32.mp3",
+	"hl2_song1.mp3",
+	"hl2_song3.mp3",
+	"hl2_song4.mp3",
+	"hl2_song7.mp3",
+	"hl2_song14.mp3",
+	"hl2_song15.mp3",
+	"hl2_song16.mp3",
+	"hl2_song17.mp3",
+	"hl2_song19.mp3",
+	"hl2_song20_submix0.mp3",
+	"hl2_song20_submix4.mp3",
+	"hl2_song23_suitsong3.mp3",
+	"hl2_song29.mp3",
+	"hl2_song31.mp3",
+	"hl2_song32.mp3",
 
 	"looping_radio_mix.wav",
 	"mannrobics.wav",
@@ -58,6 +68,7 @@ local audioFiles = {
 
 	"ravenholm_1.mp3"
 }
+
 
 local repoURL = "https://raw.githubusercontent.com/lautaroleonel1012-commits/valve_radio/main/"
 
@@ -115,3 +126,4 @@ UserInputService.InputBegan:Connect(function(input, gpe)
 		playRandom()
 	end
 end)
+
