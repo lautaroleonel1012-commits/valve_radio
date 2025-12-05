@@ -18,6 +18,8 @@ tool.CanBeDropped = false
 
 local handle = Instance.new("Part")
 handle.Name = "Handle"
+local handle = Instance.new("Part")
+handle.Name = "Handle"
 handle.Size = Vector3.new(2.606, 1.571, 0.704)
 handle.Anchored = false
 handle.CanCollide = false
@@ -27,13 +29,14 @@ local mesh = Instance.new("SpecialMesh")
 mesh.MeshType = Enum.MeshType.FileMesh
 mesh.MeshId = "rbxassetid://2255562649"
 mesh.TextureId = "rbxassetid://2255562684"
-mesh.Scale = Vector3.new(2.606, 1.571, 0.704)
+mesh.Scale = Vector3.new(0.01, 0.01, 0.01) -- << CORRECTO
 mesh.Parent = handle
 
-tool.GripPos = Vector3.new(-0.6, -1, 0)
+
+tool.GripPos = Vector3.new(0.6, -1, 0)
 tool.GripUp = Vector3.new(0, 1, 0)
-tool.GripRight = Vector3.new(0, 0, -1)
-tool.GripForward = Vector3.new(1, 0, 0)
+tool.GripRight = Vector3.new(0, 0, 0)
+tool.GripForward = Vector3.new(0, 0, 0)
 
 tool.Parent = backpack
 
