@@ -10,7 +10,7 @@ tool.CanBeDropped = false
 
 local handle = Instance.new("Part")
 handle.Name = "Handle"
-handle.Size = Vector3.new(0.01, 0.01, 0.01)
+handle.Size = Vector3.new(1, 1, 1)
 handle.Anchored = false
 handle.CanCollide = false
 handle.Parent = tool
@@ -22,7 +22,7 @@ mesh.TextureId = "rbxassetid://2255562684"
 mesh.Scale = Vector3.new(0.01, 0.01, 0.01)
 mesh.Parent = handle
 
-tool.Grip = CFrame.new(0, 0, 0) * CFrame.Angles(0, math.rad(90), 0)
+tool.Grip = CFrame.new(1, 0, 0) * CFrame.Angles(0, math.rad(90), 0)
 
 tool.Parent = backpack
 
@@ -106,6 +106,7 @@ UserInputService.InputBegan:Connect(function(input, gpe)
 		playRandom()
 	end
 end)
+
 
 
 
