@@ -10,7 +10,7 @@ tool.CanBeDropped = false
 
 local handle = Instance.new("Part")
 handle.Name = "Handle"
-handle.Size = Vector3.new(1, 1, 1)
+handle.Size = Vector3.new(0.1, 0.1, 0.1)
 handle.Anchored = false
 handle.CanCollide = false
 handle.Parent = tool
@@ -106,6 +106,7 @@ UserInputService.InputBegan:Connect(function(input, gpe)
 		playRandom()
 	end
 end)
+
 
 
 
