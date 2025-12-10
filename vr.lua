@@ -1,33 +1,16 @@
+-- SERVICES
 local Players = game:GetService("Players")
 local UserInputService = game:GetService("UserInputService")
 local lp = Players.LocalPlayer
-local backpack = lp:WaitForChild("Backpack")
-
--- TOOL
-local tool = Instance.new("Tool")
-tool.Name = "Valve radio"
-tool.CanBeDropped = false
-
-local handle = Instance.new("Part")
-handle.Name = "Handle"
-handle.Size = Vector3.new(0.01, 0.01, 0.01)
-handle.Anchored = false
-handle.CanCollide = false
-handle.Parent = tool
-
-local mesh = Instance.new("SpecialMesh")
-mesh.MeshType = Enum.MeshType.FileMesh
-mesh.MeshId = "rbxassetid://2255562649"
-mesh.TextureId = "rbxassetid://2255562684"
-mesh.Scale = Vector3.new(0.01, 0.01, 0.01)
-mesh.Parent = handle
-
-tool.Grip = CFrame.new(-0.9, -1, 0) * CFrame.Angles(0, math.rad(90), 0)
-
-tool.Parent = backpack
 
 -------------------------------------------------
+-- CONFIG
+local RADIO_NAME = "Valve radio"
+local repoURL = "https://raw.githubusercontent.com/lautaroleonel1012-commits/valve_radio/main/"
+local prefix = "valve_radio_"
 
+-------------------------------------------------
+-- AUDIO LIST
 local audioFiles = {
 	"conga_sketch_167bpm_01-04.wav",
 	"cossack_sandvich.wav",
@@ -42,18 +25,19 @@ local audioFiles = {
 	"hl2_song19.mp3","hl2_song20_submix0.mp3","hl2_song20_submix4.mp3",
 	"hl2_song23_suitsong3.mp3","hl2_song29.mp3","hl2_song31.mp3","hl2_song32.mp3",
 
-	"looping_radio_mix.wav","mannrobics.wav",
-	"portal_4000_degrees_kelvin.mp3","portal_still_alive.mp3",
-	"portal_you_cant_escape_you_know.mp3","portal_youre_not_a_good_person.mp3",
+	"looping_radio_mix.wav",
+	"mannrobics.wav",
+
+	"portal_4000_degrees_kelvin.mp3",
+	"portal_still_alive.mp3",
+	"portal_you_cant_escape_you_know.mp3",
+	"portal_youre_not_a_good_person.mp3",
 
 	"ravenholm_1.mp3"
 }
 
-local repoURL = "https://raw.githubusercontent.com/lautaroleonel1012-commits/valve_radio/main/"
-local prefix = "valve_radio_"
-
 -------------------------------------------------
-
+-- FILE HANDLING
 local function ensureFile(file)
 	local path = prefix .. file
 	if not isfile(path) then
@@ -63,27 +47,73 @@ local function ensureFile(file)
 end
 
 -------------------------------------------------
+-- TOOL CREATION
+local function createRadioTool()
+	local backpack = lp:WaitForChild("Backpack")
 
-local sound = Instance.new("Sound")
-sound.Volume = 10
-sound.Parent = handle
+	-- evitar duplicados
+	if backpack:FindFirstChild(RADIO_NAME) then
+		return
+	end
 
-local currentFile = nil
+	-- TOOL
+	local tool = Instance.new("Tool")
+	tool.Name = RADIO_NAME
+	tool.CanBeDropped = false
 
-local function playRandom()
-	local file = audioFiles[math.random(#audioFiles)]
-	currentFile = file
+	-- HANDLE
+	local handle = Instance.new("Part")
+	handle.Name = "Handle"
+	handle.Size = Vector3.new(0.01, 0.01, 0.01)
+	handle.Anchored = false
+	handle.CanCollide = false
+	handle.Parent = tool
 
-	sound:Stop()
-	sound.SoundId = ensureFile(file)
-	sound:Play()
+	-- MESH
+	local mesh = Instance.new("SpecialMesh")
+	mesh.MeshType = Enum.MeshType.FileMesh
+	mesh.MeshId = "rbxassetid://2255562649"
+	mesh.TextureId = "rbxassetid://2255562684"
+	mesh.Scale = Vector3.new(0.01, 0.01, 0.01)
+	mesh.Parent = handle
+
+	-- GRIP (posición ya ajustada)
+	tool.Grip = CFrame.new(0.6, -1.2, -0.2) * CFrame.Angles(0, math.rad(90), 0)
+
+	tool.Parent = backpack
+
+	-------------------------------------------------
+	-- SOUND
+	local sound = Instance.new("Sound")
+	sound.Volume = 10
+	sound.Parent = handle
+
+	local function playRandom()
+		local file = audioFiles[math.random(#audioFiles)]
+		sound:Stop()
+		sound.SoundId = ensureFile(file)
+		sound:Play()
+	end
+
+	sound.Ended:Connect(playRandom)
+
+	tool.Equipped:Connect(playRandom)
+	tool.Unequipped:Connect(function()
+		sound:Stop()
+	end)
+
+	UserInputService.InputBegan:Connect(function(input, gpe)
+		if gpe then return end
+		if tool.Parent == lp.Character and input.KeyCode == Enum.KeyCode.R then
+			playRandom()
+		end
+	end)
 end
 
-sound.Ended:Connect(playRandom)
-
 -------------------------------------------------
--- BACKGROUND DOWNLOAD
+-- BACKGROUND DOWNLOAD (una sola vez)
 task.spawn(function()
+	task.wait(1)
 	for _, file in ipairs(audioFiles) do
 		ensureFile(file)
 		task.wait(0.05)
@@ -91,55 +121,10 @@ task.spawn(function()
 end)
 
 -------------------------------------------------
+-- INITIAL + RESPAWN
+createRadioTool()
 
-tool.Equipped:Connect(function()
-	playRandom()
+lp.CharacterAdded:Connect(function()
+	task.wait(1)
+	createRadioTool()
 end)
-
-tool.Unequipped:Connect(function()
-	sound:Stop()
-end)
-
-UserInputService.InputBegan:Connect(function(input, gpe)
-	if gpe then return end
-	if tool.Parent == lp.Character and input.KeyCode == Enum.KeyCode.R then
-		playRandom()
-	end
-end)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
