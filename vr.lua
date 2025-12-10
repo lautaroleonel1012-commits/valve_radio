@@ -65,7 +65,7 @@ end
 -------------------------------------------------
 
 local sound = Instance.new("Sound")
-sound.Volume = 1
+sound.Volume = 10
 sound.Parent = handle
 
 local currentFile = nil
@@ -106,6 +106,7 @@ UserInputService.InputBegan:Connect(function(input, gpe)
 		playRandom()
 	end
 end)
+
 
 
 
